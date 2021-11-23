@@ -5,5 +5,5 @@ import com.edflor.appmockito.test.models.Examen;
 import java.util.List;
 
 public interface ExamenRepository {
-    List<Examen> findAllExamen();
+    List<Examen> findAll();
 }
