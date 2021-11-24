@@ -13,7 +13,7 @@ public class ExamenServiceImpl implements ExamenService{
 
    public ExamenServiceImpl(ExamenRepository examenRepository, PreguntaRepository preguntaRepository){
         this.examenRepository = examenRepository;
-        this.preguntaRepository = PreguntaRepository;
+        this.preguntaRepository = preguntaRepository;
     }
 
     @Override
