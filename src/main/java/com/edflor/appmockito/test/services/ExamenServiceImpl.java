@@ -2,14 +2,18 @@ package com.edflor.appmockito.test.services;
 
 import com.edflor.appmockito.test.models.Examen;
 import com.edflor.appmockito.test.repositorios.ExamenRepository;
+import com.edflor.appmockito.test.repositorios.PreguntaRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public class ExamenServiceImpl implements ExamenService{
     private ExamenRepository examenRepository;
+    private PreguntaRepository preguntaRepository;
 
-   public ExamenServiceImpl(ExamenRepository examenRepository){
+   public ExamenServiceImpl(ExamenRepository examenRepository, PreguntaRepository preguntaRepository){
         this.examenRepository = examenRepository;
+        this.preguntaRepository = PreguntaRepository;
     }
 
     @Override
@@ -18,5 +22,18 @@ public class ExamenServiceImpl implements ExamenService{
                 .stream()
                 .filter(e -> e.getNombre().contains(nombre))
                 .findFirst();
+    }
+
+    @Override
+    public Examen findExamenPorNombreConPreguntas(String nombre) {
+       Optional<Examen> examenOptional = findExamenPorNombre(nombre);
+        Examen examen = null;
+       if (examenOptional.isPresent()) {
+           examen = examenOptional.get();
+           List<String> preguntas = preguntaRepository.findPreguntasPorExamenId(examen.getId());
+
+           examen.setPreguntas(preguntas);
+       }
+        return examen;
     }
 }
