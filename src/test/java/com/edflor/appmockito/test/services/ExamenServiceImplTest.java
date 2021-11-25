@@ -7,10 +7,7 @@ import com.edflor.appmockito.test.repositorios.PreguntaRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatcher;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.*;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
@@ -35,6 +32,9 @@ class ExamenServiceImplTest {
 
     @Mock
     PreguntaRepository preguntaRepository;
+
+    @Captor
+    ArgumentCaptor<Long> captor;
 
   /*  @BeforeEach
     void setUp() {
@@ -184,5 +184,18 @@ class ExamenServiceImplTest {
             return "Mensaje de error personalizado en caso de que falle el test "
                     + argument + " debe de ser un numero positivo";
         }
+    }
+
+    @Test
+    void testArgumentCaptor() {
+        when(repository.findAll()).thenReturn(Datos.EXAMENES);
+        //when(preguntaRepository.findPreguntasPorExamenId(anyLong())).thenReturn(Datos.PREGUNTAS);
+
+        service.findExamenPorNombreConPreguntas("Matematicas");
+
+        //ArgumentCaptor<Long> captor = ArgumentCaptor.forClass(Long.class);
+        verify(preguntaRepository).findPreguntasPorExamenId(captor.capture());
+
+        assertEquals(5L, captor.getValue());
     }
 }
