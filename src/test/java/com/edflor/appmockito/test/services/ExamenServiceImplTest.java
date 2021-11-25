@@ -6,6 +6,12 @@ import com.edflor.appmockito.test.repositorios.ExamenRepositoryOtro;
 import com.edflor.appmockito.test.repositorios.PreguntaRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
+
 import static org.mockito.Mockito.*;
 
 import java.util.Arrays;
@@ -15,19 +21,25 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@ExtendWith(MockitoExtension.class)
 class ExamenServiceImplTest {
 
+    @Mock
     ExamenRepository repository;
-    ExamenService service;
+
+    @InjectMocks
+    ExamenServiceImpl service;
+
+    @Mock
     PreguntaRepository preguntaRepository;
 
-    @BeforeEach
+  /*  @BeforeEach
     void setUp() {
-        repository = mock(ExamenRepository.class);
+       *//* repository = mock(ExamenRepository.class);
         preguntaRepository = mock(PreguntaRepository.class);
-        service = new ExamenServiceImpl(repository, preguntaRepository);
-
-    }
+        service = new ExamenServiceImpl(repository, preguntaRepository);*//*
+        MockitoAnnotations.openMocks(this);
+    }*/
 
     @Test
     void findExamenPorNombre() {
@@ -80,7 +92,7 @@ class ExamenServiceImplTest {
     void testPreguntasExamenVerifyListaVacia(){
         when(repository.findAll()).thenReturn(Collections.emptyList());
         when(preguntaRepository.findPreguntasPorExamenId(anyLong())).thenReturn(Datos.PREGUNTAS);
-        Examen examen = service.findExamenPorNombreConPreguntas(anyString());
+        Examen examen = service.findExamenPorNombreConPreguntas("Matematicas");
         assertNull(examen);
         /*verify(repository).findAll();
         verify(preguntaRepository).findPreguntasPorExamenId(anyLong());*/
