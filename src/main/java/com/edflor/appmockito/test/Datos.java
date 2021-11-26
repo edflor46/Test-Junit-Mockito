@@ -1,4 +1,4 @@
-package com.edflor.appmockito.test.services;
+package com.edflor.appmockito.test;
 
 import com.edflor.appmockito.test.models.Examen;
 
